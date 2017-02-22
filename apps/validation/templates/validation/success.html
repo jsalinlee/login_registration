@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Login successful!</title>
+        {% load staticfiles %}
+        <link rel="stylesheet" href="{% static 'validation/css/skeleton.css' %}">
+        <link rel="stylesheet" href="{% static 'validation/css/normalize.css' %}">
+    </head>
+    <body>
+        {% if messages %}
+            {% for message in messages %}
+                <h6>{{ message }}</h6>
+            {% endfor %}
+        {% endif %}
+        <h1>Success! Welcome {{ current_user.0.fname }}!</h1>
+        <form class="logout" action="/logout" method="post">
+        {% csrf_token %}
+            <input type="submit" name="logout" value="Logout">
+        </form>
+    </body>
+</html>
