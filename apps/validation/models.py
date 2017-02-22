@@ -35,7 +35,6 @@ class UserManager(models.Manager):
         for i in User.objects.all():
             if logData['log_email'] == i.email:
                 if bcrypt.hashpw(logData['log_pass'].encode(), i.password.encode()) == i.password:
-                    print "login success!"
                     return True
         return False
 

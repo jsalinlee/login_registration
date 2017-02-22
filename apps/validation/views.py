@@ -6,8 +6,9 @@ def index(req):
     return render(req, 'validation/index.html')
 def register(req):
     if req.method == "POST":
-        if User.objects.register(req.POST)[0]:
-            req.session['user_id'] = User.objects.register(req.POST)[1]
+        register_query = User.objects.register(req.POST)
+        if register_query[0]:
+            req.session['user_id'] = register_query[1]
             messages.info(req, "Thank you for registering!")
             return redirect('/success')
         else:
