@@ -7,7 +7,7 @@ NUM_REGEX = re.compile(r'^[a-zA-Z]+$')
 # Manager
 class UserManager(models.Manager):
     def register(self, regData):
-        error_messages = ["First name must be at least 2 characters!", "First name can't have numbers or special characters!", "Last name must be at least 2 characters!", "Last name can't have numbers or special characters!", "Invalid email!", "Password must be at least 8 characters!", "Password and confirmation do not match!", "That email is already taken."]
+        error_messages = ["First name must be at least 2 characters!", "First name can't have numbers or special characters!", "Last name must be at least 2 characters!", "Last name can't have numbers or special characters!", "Invalid email!", "Password must be at least 8 characters!", "Password and confirmation do not match!", "That email is already taken.", "Password can't have spaces!"]
         error_list = []
         if len(regData['fname']) < 2:
             error_list.append(error_messages[0])
@@ -24,6 +24,9 @@ class UserManager(models.Manager):
                 error_list.append(error_messages[7])
         if len(regData['password']) < 8:
             error_list.append(error_messages[5])
+        for i in regData['password']:
+            if i == " ":
+                error_list.append(error_messages[8])
         if regData['password'] != regData['pass_conf']:
             error_list.append(error_messages[6])
         if error_list == []:

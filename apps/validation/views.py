@@ -3,7 +3,11 @@ from django.contrib import messages
 from .models import User
 # Create your views here.
 def index(req):
-    return render(req, 'validation/index.html')
+    try:
+        req.session['user_id']
+        return redirect('/success')
+    except:
+        return render(req, 'validation/index.html')
 def register(req):
     if req.method == "POST":
         register_query = User.objects.register(req.POST)
@@ -15,6 +19,8 @@ def register(req):
             for error in User.objects.register(req.POST)[1]:
                 messages.info(req, error)
             return redirect('/')
+    else:
+        return redirect('/')
 def success(req):
     if 'user_id' not in req.session:
         messages.info(req, "Please log in.")
@@ -31,6 +37,11 @@ def login(req):
             return redirect('/success')
     return redirect('/')
 def logout(req):
+    if req.method == 'GET':
+        return redirect('/success')
     req.session.clear()
     messages.info(req, "You've successfully logged out. Have a nice day!")
+    return redirect('/')
+def nonsense(req):
+    messages.info(req, "Page not found")
     return redirect('/')
